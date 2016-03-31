@@ -7,7 +7,7 @@ module.exports = mongoose.model('Posting',{
     title: String,
     description: String,
     tags: [String],
-	posting_data: Date,
+	posting_date: Date,
     start_date: Date,
     end_date: Date,
 	owner_email: String,

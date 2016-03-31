@@ -2,38 +2,38 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
-var Posting = require('../models/user.js');
+var User = require('../models/user.js');
 
 
 //create a user
 router.post('/createUser', function(req, res, next) {
-  Posting.create(req.body, function (err, post) {
+  User.create(req.body, function (err, user) {
     if (err) return next(err);
-    res.json(post);
+    res.json(user);
   });
 });
 
 //get user by email
 router.get('/getUser/:email', function(req, res, next) {
-  Posting.findById(req.params.email, function (err, post) {
+  User.findById(req.params.email, function (err, user) {
     if (err) return next(err);
-    res.json(post);
+    res.json(user);
   });
 });
 
 //update user by email
 router.put('/updateUser/:email', function(req, res, next) {
-  Posting.findByIdAndUpdate(req.params.email, req.body, function (err, post) {
+  User.findByIdAndUpdate(req.params.email, req.body, function (err, user) {
     if (err) return next(err);
-    res.json(post);
+    res.json(user);
   });
 });
 
 //delete user by email
 router.delete('deleteUser/:email', function(req, res, next) {
-  Posting.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+  User.findByIdAndRemove(req.params.id, req.body, function (err, user) {
     if (err) return next(err);
-    res.json(post);
+    res.json(user);
   });
 });
 
