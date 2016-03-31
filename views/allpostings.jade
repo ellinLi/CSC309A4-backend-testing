@@ -12,4 +12,12 @@ block content
 								li title ---> #{val.title}
 								li Description    ---> #{val.description}
 								li Posting Date ---> #{val.posting_date.toString()}
-				a(href='/signout', class='text-center new-account') Sign Out
+							form(class='posting-op', action='/postingManager/deletepost', method='GET')
+								input(type='hidden', name='id', class='form-control', value = val._id)
+								button(class='btn btn-lg btn-primary btn-block', type='submit') Delete
+								
+				br
+				br
+				br
+				a(href='/postingManager/createpost', class='btn btn-lg  btn-block')  New Posting
+				a(href='/signout', class='btn btn-lg  btn-block') Sign Out
