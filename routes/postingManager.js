@@ -12,6 +12,31 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/testPosting', function(req, res, next) {
+	Posting.create({
+		title: 'RAD dev',
+	    description: 'dev a project',
+	    tags: ['java','C++'],
+	    posting_date: new Date(),
+	    start_date: null,
+	    end_date: null,
+		owner_email: req.user.email,
+		developer_email: [null],
+		status: 'posted',
+		rating: null,
+		comments: [null]
+	}, function (err, post) {
+	    if (err) return next(err);
+	    res.json(post);
+	  });
+	});
+
+//go to the post creation page
+router.get('/addpost', function(req, res){
+	res.render('addpost',{message: req.flash('message')});
+});
+
+
 //create a posting
 router.post('/addpost', function(req, res, next) {
   Posting.create(req.body, function (err, post) {
@@ -37,7 +62,7 @@ router.put('/:id', function(req, res, next) {
 });
 
 //delete posting by ID
-router.delete('/:id', function(req, res, next) {
+router.post('/delete:id', function(req, res, next) {
   Posting.findByIdAndRemove(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
