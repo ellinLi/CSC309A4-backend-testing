@@ -6,7 +6,7 @@ var User = require('../models/user.js');
 
 
 //create a user
-router.post('/createUser', function(req, res, next) {
+router.user('/createUser', function(req, res, next) {
   User.create(req.body, function (err, user) {
     if (err) return next(err);
     res.json(user);
