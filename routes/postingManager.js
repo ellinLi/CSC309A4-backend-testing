@@ -32,15 +32,19 @@ router.get('/testPosting', function(req, res, next) {
 	});
 
 //go to the post creation page
-router.get('/addpost', function(req, res){
+router.get('/createpost', function(req, res){
 	res.render('addpost',{message: req.flash('message')});
 });
 
 
 //create a posting
-router.post('/addpost', function(req, res, next) {
-  Posting.create(req.body, function (err, post) {
+router.post('/createpost', function(req, res, next) {
+  var newPost = new Posting(req.body);
+  newPost.posting_date = new Date();
+  newPost.owner_email = req.user.email;
+  newPost.save( function (err, post) {
     if (err) return next(err);
+    req.user.projects.push(newPost._id);
     res.json(post);
   });
 });

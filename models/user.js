@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
  
+var Schema = mongoose.Schema,
+ObjectId = Schema.ObjectId;
+
 module.exports = mongoose.model('User',{
     username: String,
     password: String,
@@ -21,5 +24,6 @@ module.exports = mongoose.model('User',{
         comment: String
       }
       ],
-	   type: Boolean
+	   type: Boolean,
+	   projects: [{type: ObjectId, ref:'Posting'}]
 });
