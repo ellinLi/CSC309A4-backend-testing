@@ -8,7 +8,9 @@ var Posting = require('../models/posting.js');
 router.get('/', function(req, res, next) {
   Posting.find(function (err, postings) {
     if (err) return next(err);
-    res.json(postings);
+    //res.json(postings);
+    res.render('allpostings', { user: req.user,
+    	allpostings: postings});
   });
 });
 
