@@ -4,9 +4,11 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Posting = require('../models/posting.js');
 
-//get all postings
+//get all postings belong to a user
 router.get('/', function(req, res, next) {
-  Posting.find(function (err, postings) {
+  Posting.find({
+	    '_id': { $in: req.user.projects}
+	           },  function (err, postings) {
     if (err) return next(err);
     //res.json(postings);
     res.render('allpostings', { user: req.user,
