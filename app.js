@@ -46,6 +46,9 @@ app.use('/', routes);
 var postingRoutes = require('./routes/postingManager');
 app.use('/postingManager', postingRoutes);
 
+var userRoutes = require('./routes/userManager');
+app.use('/userManager', userRoutes);
+
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

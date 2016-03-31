@@ -4,26 +4,43 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var User = require('../models/user.js');
 
-
-//create a user
-router.user('/createUser', function(req, res, next) {
-  User.create(req.body, function (err, user) {
+//get all users 
+router.get('/', function(req, res, next) {
+  User.find(function (err, user) {
     if (err) return next(err);
     res.json(user);
   });
+});
+
+router.get('/', function(req, res, next) {
+  Posting.find(function (err, postings) {
+    if (err) return next(err);
+    //res.json(postings);
+    res.render('allpostings', { user: req.user,
+        allpostings: postings});
+  });
+});
+
+router.get('/getUser', function(req, res){
+    res.render('getuser',{message: req.flash('message')});
 });
 
 //get user by email
 router.get('/getUser/:email', function(req, res, next) {
-  User.findById(req.params.email, function (err, user) {
-    if (err) return next(err);
-    res.json(user);
-  });
+    User.findOne({email:req.params.email}, function (err, user) {
+        console.log('i am here!');
+        if (err){
+            return next(err);
+        }
+        console.log(user); 
+        res.json(user);
+    });
 });
 
+
 //update user by email
-router.put('/updateUser/:email', function(req, res, next) {
-  User.findByIdAndUpdate(req.params.email, req.body, function (err, user) {
+router.put('/updateUser', function(req, res, next) {
+  User.findOneAndUpdate({email:req.params.email}, req.body, function (err, user) {
     if (err) return next(err);
     res.json(user);
   });
