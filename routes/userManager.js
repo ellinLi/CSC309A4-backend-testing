@@ -26,9 +26,9 @@ router.get('/getUser', function(req, res){
 });
 
 //get user by email
-router.get('/getUser/:email', function(req, res, next) {
-    User.findOne({email:req.params.email}, function (err, user) {
-        console.log('i am here!');
+router.get('/searchUser', function(req, res, next) {
+    User.findOne({email:req.query.email}, function (err, user) {
+        console.log(req.query.email);
         if (err){
             return next(err);
         }
@@ -47,7 +47,7 @@ router.put('/updateUser', function(req, res, next) {
 });
 
 //delete user by email
-router.delete('deleteUser/:email', function(req, res, next) {
+router.post('deleteUser/:email', function(req, res, next) {
   User.findByIdAndRemove(req.params.id, req.body, function (err, user) {
     if (err) return next(err);
     res.json(user);
