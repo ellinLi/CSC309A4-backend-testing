@@ -44,7 +44,11 @@ router.post('/createpost', function(req, res, next) {
   newPost.owner_email = req.user.email;
   newPost.save( function (err, post) {
     if (err) return next(err);
+    //add project to owner's project's list
     req.user.projects.push(newPost._id);
+    req.user.save(function (err){
+    	if (err) return next(err);
+    })
     res.json(post);
   });
 });
