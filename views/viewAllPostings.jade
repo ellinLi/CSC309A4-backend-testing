@@ -13,7 +13,7 @@ block content
 								li Description    ---> #{val.description}
 								li Posting Date ---> #{val.posting_date.toString()}
 								li Posting Owner Email--> #{val.owner_email}
-							if (user.projects.indexOf(val._id) != -1)
+							if (user.projects.indexOf(val._id) == -1)
 								form(class='posting-op', action='/postingManager/joinpost', method='GET')
 									input(type='hidden', name='id', class='form-control', value = val._id)
 									button(class='btn btn-lg btn-primary btn-block', type='submit') Join

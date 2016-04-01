@@ -67,10 +67,10 @@ router.get('/createpost', isAuthenticated,  function(req, res){
 router.get('/joinpost',isAuthenticated, function(req, res, next) {
 	Posting.findById(req.query.id, req.body, function (err, post) {
 	    if (err) return next(err);
-	    if ((post.developer_email.indexOf(req.user.email) == -1)){
+	    if ((post.developer_email.indexOf(req.user.email) === -1)){
 	    	post.developer_email.push(req.user.email);
 	    }
-	    if ((req.user.projects.indexOf(post._id) == -1)){
+	    if ((req.user.projects.indexOf(post._id) === -1)){
 	    	req.user.projects.push(post._id);
 	    }
 	    req.user.save();
@@ -130,7 +130,7 @@ router.get('/find:id', function(req, res, next) {
 });
 
 //update posting
-router.put('/:id', function(req, res, next) {
+router.put('/update', function(req, res, next) {
   Posting.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.redirect('/postingManager');
