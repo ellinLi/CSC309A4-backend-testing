@@ -12,9 +12,10 @@ block content
 								li title ---> #{val.title}
 								li Description    ---> #{val.description}
 								li Posting Date ---> #{val.posting_date.toString()}
-							form(class='posting-op', action='/postingManager/deletepost', method='GET')
-								input(type='hidden', name='id', class='form-control', value = val._id)
-								button(class='btn btn-lg btn-primary btn-block', type='submit') Delete
+							if (val.owner_email  == user.email) 
+								form(class='posting-op', action='/postingManager/deletepost', method='GET')
+									input(type='hidden', name='id', class='form-control', value = val._id)
+									button(class='btn btn-lg btn-primary btn-block', type='submit') Delete
 								
 				br
 				br
