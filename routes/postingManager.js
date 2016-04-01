@@ -15,6 +15,16 @@ var isAuthenticated = function (req, res, next) {
 var mongoose = require('mongoose');
 var Posting = require('../models/posting.js');
 
+//get all visable postings
+router.get('/viewAllPost', isAuthenticated, function(req, res, next) {
+  Posting.find( function (err, postings) {
+    if (err) return next(err);
+    //res.json(postings);
+    res.render('viewAllPostings', {user: req.user,
+    	allpostings: postings});
+  });
+});
+
 //get all postings belong to a user
 router.get('/', isAuthenticated, function(req, res, next) {
   Posting.find({
@@ -66,7 +76,7 @@ router.post('/createpost', function(req, res, next) {
     req.user.save(function (err){
     	if (err) return next(err);
     })
-    res.json(post);
+    res.redirect('/postingManager');
   });
 });
 
@@ -75,15 +85,30 @@ router.get('/deletepost', isAuthenticated, function(req, res, next) {
 	  console.log(req.query.id);
 	  Posting.findByIdAndRemove(req.query.id, req.body, function (err, post) {
 	    if (err) return next(err);
-	    res.json(post);
+	    res.redirect('/postingManager');
 	  });
 	});
 
+//search posting by infomation
+router.get('/search', isAuthenticated, function(req, res, next) {
+  var SearchKeyWord = new RegExp(req.query.id, "i");
+  Posting.find({$or:[{title : {$regex : SearchKeyWord}},{description : {$regex : SearchKeyWord}},
+                     {tags :  SearchKeyWord},
+                     {owner_email : {$regex : SearchKeyWord}},
+                     {developer_email : {$regex : SearchKeyWord}}]}, function (err, post) {
+    if (err) return next(err);
+    console.log(req.query);
+    console.log(post);
+    res.render('viewAllPostings', { user: req.user,
+    	allpostings: post});
+  });
+});
+
 //show posting by id
-router.get('/:id', function(req, res, next) {
+router.get('/find:id', function(req, res, next) {
   Posting.findById(req.params.id, function (err, post) {
     if (err) return next(err);
-    res.json(post);
+    res.redirect('/postingManager');
   });
 });
 
@@ -91,7 +116,7 @@ router.get('/:id', function(req, res, next) {
 router.put('/:id', function(req, res, next) {
   Posting.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
-    res.json(post);
+    res.redirect('/postingManager');
   });
 });
 
