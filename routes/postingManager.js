@@ -146,7 +146,7 @@ router.get('/search', isAuthenticated, function(req, res, next) {
 });
 
 //show posting by id
-router.get('/find:id', function(req, res, next) {
+router.get('/find:id',isAuthenticated, function(req, res, next) {
   Posting.findById(req.params.id, function (err, post) {
     if (err) return next(err);
     res.redirect('/postingManager');
@@ -154,7 +154,7 @@ router.get('/find:id', function(req, res, next) {
 });
 
 //update posting
-router.put('/update', function(req, res, next) {
+router.post('/updatePosting',isAuthenticated, function(req, res, next) {
   Posting.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.redirect('/postingManager');
