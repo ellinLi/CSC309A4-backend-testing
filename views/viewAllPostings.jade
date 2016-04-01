@@ -19,6 +19,9 @@ block content
 									button(class='btn btn-lg btn-primary btn-block', type='submit') Join
 							else
 								button(class='btn btn-lg btn-primary btn-block',disabled, type='submit') Added
+							form(class='posting-op', action='/postingManager/view_detail', method='GET')
+									input(type='hidden', name='id', class='form-control', value = val._id)
+									button(class='btn btn-lg btn-primary btn-block', type='submit') view Detail
 				br
 				br
 				form(class='search-op', action='/postingManager/search', method='GET')

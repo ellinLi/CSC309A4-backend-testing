@@ -16,6 +16,9 @@ block content
 								form(class='posting-op', action='/postingManager/deletepost', method='GET')
 									input(type='hidden', name='id', class='form-control', value = val._id)
 									button(class='btn btn-lg btn-primary btn-block', type='submit') Delete
+							form(class='posting-op', action='/postingManager/view_detail', method='GET')
+									input(type='hidden', name='id', class='form-control', value = val._id)
+									button(class='btn btn-lg btn-primary btn-block', type='submit') view Detail
 								
 				br
 				br

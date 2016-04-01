@@ -79,7 +79,31 @@ router.get('/joinpost',isAuthenticated, function(req, res, next) {
 	  });
 	});
 
+router.get('/view_detail', isAuthenticated, function(req, res, next) {
+	Posting.findById(req.query.id,  function (err, postings) {
+	    if (err) return next(err);
+	    //res.json(postings);
+	    res.render('posting_detail', { user: req.user,
+	    	thepost: postings});
+	  });
+	});
 
+
+//create a posting
+router.post('/comment', isAuthenticated, function(req, res, next) {
+	Posting.findById(req.body.id, function (err, post) {
+	    if (err) return next(err);
+	    var newComment = {
+		    	'comment_date' : new Date(), 'commenter_email' : req.user.email, 'content' : req.body.commentMessage};
+	    console.log(req.body.id);
+	    console.log(post.title);
+	    post.comments.push(newComment);
+	    
+	    post.save();
+	    res.render('posting_detail', { user: req.user,
+	    	thepost: post});
+	  });
+	});
 
 //create a posting
 router.post('/createpost', isAuthenticated, function(req, res, next) {

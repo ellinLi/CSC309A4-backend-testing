@@ -14,5 +14,9 @@ module.exports = mongoose.model('Posting',{
 	developer_email: [String],
 	status: String,
 	rating: Number,
-	comments: [ObjectId]
+	comments: [{
+		comment_date: Date,
+		commenter_email: String,
+		content: String
+	}]
 });
