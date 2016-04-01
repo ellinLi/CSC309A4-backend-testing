@@ -12,14 +12,14 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/', function(req, res, next) {
-  Posting.find(function (err, postings) {
-    if (err) return next(err);
-    //res.json(postings);
-    res.render('allpostings', { user: req.user,
-        allpostings: postings});
-  });
-});
+// router.get('/', function(req, res, next) {
+//   Posting.find(function (err, postings) {
+//     if (err) return next(err);
+//     //res.json(postings);
+//     res.render('allpostings', { user: req.user,
+//         allpostings: postings});
+//   });
+// });
 
 router.get('/getUser', function(req, res){
     res.render('getuser',{message: req.flash('message')});
@@ -40,15 +40,15 @@ router.get('/searchUser', function(req, res, next) {
 
 //update user by email
 router.put('/updateUser', function(req, res, next) {
-  User.findOneAndUpdate({email:req.params.email}, req.body, function (err, user) {
+  User.findOneAndUpdate({email:req.query.email}, req.body, function (err, user) {
     if (err) return next(err);
     res.json(user);
   });
 });
 
 //delete user by email
-router.post('deleteUser/:email', function(req, res, next) {
-  User.findByIdAndRemove(req.params.id, req.body, function (err, user) {
+router.get('/deleteUser', function(req, res, next) {
+  User.where().findOneAndRemove({email:req.query.email}, function (err, user) {
     if (err) return next(err);
     res.json(user);
   });
