@@ -100,8 +100,9 @@ router.post('/comment', isAuthenticated, function(req, res, next) {
 	    post.comments.push(newComment);
 	    
 	    post.save();
+	    	  
 	    res.render('posting_detail', { user: req.user,
-	    	thepost: post});
+	    	thepost: post, message: req.flash("info", req.body.commentMessage)});
 	  });
 	});
 
