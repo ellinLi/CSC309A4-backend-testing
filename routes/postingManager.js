@@ -16,12 +16,11 @@ var mongoose = require('mongoose');
 var Posting = require('../models/posting.js');
 
 //get all visable postings
-router.get('/viewAllPost', isAuthenticated, function(req, res, next) {
+router.get('/viewAllPost', function(req, res, next) {
   Posting.find( function (err, postings) {
     if (err) return next(err);
     //res.json(postings);
-    res.render('viewAllPostings', {user: req.user,
-    	allpostings: postings});
+    res.json(postings);
   });
 });
 
@@ -59,9 +58,9 @@ router.get('/testPosting', isAuthenticated, function(req, res, next) {
 	});
 
 //go to the post creation page
-router.get('/createpost', isAuthenticated,  function(req, res){
-	res.render('addpost',{message: req.flash('message')});
-});
+// router.get('/createpost', isAuthenticated,  function(req, res){
+// 	res.render('addpost',{message: req.flash('message')});
+// });
 
 //join a posting
 router.get('/joinpost',isAuthenticated, function(req, res, next) {
@@ -79,12 +78,13 @@ router.get('/joinpost',isAuthenticated, function(req, res, next) {
 	  });
 	});
 
-router.get('/view_detail', isAuthenticated, function(req, res, next) {
-	Posting.findById(req.query.id,  function (err, postings) {
+router.get('/view_detail', function(req, res, next) {
+	console.log(req); 
+	Posting.findById(req.body.id,  function (err, postings) {
 	    if (err) return next(err);
 	    //res.json(postings);
-	    res.render('posting_detail', { user: req.user,
-	    	thepost: postings});
+	    console.log(postings);
+	    res.json(postings);
 	  });
 	});
 
@@ -100,14 +100,13 @@ router.post('/comment', isAuthenticated, function(req, res, next) {
 	    post.comments.push(newComment);
 	    
 	    post.save();
-	    	  
 	    res.render('posting_detail', { user: req.user,
-	    	thepost: post, message: req.flash("info", req.body.commentMessage)});
+	    	thepost: post});
 	  });
 	});
 
 //create a posting
-router.post('/createpost', isAuthenticated, function(req, res, next) {
+router.post('/createpost', function(req, res, next) {
   var newPost = new Posting(req.body);
   newPost.posting_date = new Date();
   newPost.owner_email = req.user.email;
@@ -118,7 +117,7 @@ router.post('/createpost', isAuthenticated, function(req, res, next) {
     req.user.save(function (err){
     	if (err) return next(err);
     })
-    res.redirect('/postingManager');
+    res.redirect('/');
   });
 });
 
